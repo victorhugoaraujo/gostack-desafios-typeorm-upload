@@ -19,7 +19,6 @@ class CreateTransactionService {
     category,
   }: RequestDTO): Promise<Transaction> {
     // TODO
-    // const transactionsRepository = getRepository(Transaction);
     const transactionsRepository = getCustomRepository(TransactionsRepository);
     const { total } = await transactionsRepository.getBalance();
 
