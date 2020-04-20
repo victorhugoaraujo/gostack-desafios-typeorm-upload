@@ -10,14 +10,14 @@ class DeleteTransactionService {
   public async execute({ id }: RequestDTO): Promise<void> {
     // TODO
     const transactionsRepository = getCustomRepository(TransactionsRepository);
-    const findTransaction = await transactionsRepository.findOne({
+    const transaction = await transactionsRepository.findOne({
       where: { id },
     });
-    if (!findTransaction) {
-      throw new AppError('Project not found');
+    if (!transaction) {
+      throw new AppError('Transaction does not exist');
     }
 
-    await transactionsRepository.delete({ id });
+    await transactionsRepository.remove(transaction);
   }
 }
 

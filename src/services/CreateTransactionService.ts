@@ -20,12 +20,12 @@ class CreateTransactionService {
   }: RequestDTO): Promise<Transaction> {
     // TODO
     const transactionsRepository = getCustomRepository(TransactionsRepository);
+    const categoryRepository = getRepository(Category);
     const { total } = await transactionsRepository.getBalance();
 
     if (total < value && type === 'outcome') {
       throw new AppError('Insuficient funds!');
     }
-    const categoryRepository = getRepository(Category);
 
     let checkCategoryExists = await categoryRepository.findOne({
       where: { title: category },
@@ -43,7 +43,7 @@ class CreateTransactionService {
       title,
       value,
       type,
-      category_id: checkCategoryExists.id,
+      category: checkCategoryExists,
     });
 
     await transactionsRepository.save(transaction);
